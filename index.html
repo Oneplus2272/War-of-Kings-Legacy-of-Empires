@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>War of Kings: Legacy of Empires</title>
+    <title>Void Echoes RPG</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+
     <div id="loading-screen" class="screen" style="display: flex; opacity: 1;">
-        <img src="war_of_kings_legacy_logo.png" class="logo-main">
+        <img src="icon_logo_void_echoes.png" class="logo-main">
         <div class="loader-container">
             <div id="loading-pct">0%</div>
             <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
@@ -20,21 +21,27 @@
         <div class="selection-container">
             <div class="hero-title">ВЫБЕРИ СВОЕГО ГЕРОЯ</div>
             <div class="cards-container">
-                <div class="hero-card" id="c-tsar" onclick="selectHero('Царь', 'tsar')">
-                    <div class="hero-image"><img src="hero_tsar.png"></div>
+                <div class="hero-card" id="c-tsar">
+                    <div class="hero-image"><img id="hero-tsar-img" src="hero_tsar.png" alt="Царь"></div>
                     <div class="hero-name">Царь</div>
+                    <div class="hero-description">Могущественный правитель с железной волей</div>
+                    <button class="select-btn" onclick="selectHero('Царь', 'tsar')">Выбрать</button>
                 </div>
-                <div class="hero-card" id="c-sultan" onclick="selectHero('Султан', 'sultan')">
-                    <div class="hero-image"><img src="hero_sultan.png"></div>
+                <div class="hero-card" id="c-sultan">
+                    <div class="hero-image"><img id="hero-sultan-img" src="hero_sultan.png" alt="Султан"></div>
                     <div class="hero-name">Султан</div>
+                    <div class="hero-description">Мудрый восточный владыка</div>
+                    <button class="select-btn" onclick="selectHero('Султан', 'sultan')">Выбрать</button>
                 </div>
-                <div class="hero-card" id="c-king" onclick="selectHero('Король', 'king')">
-                    <div class="hero-image"><img src="hero_king.png"></div>
+                <div class="hero-card" id="c-king">
+                    <div class="hero-image"><img id="hero-king-img" src="hero_king.png" alt="Король"></div>
                     <div class="hero-name">Король</div>
+                    <div class="hero-description">Благородный западный монарх</div>
+                    <button class="select-btn" onclick="selectHero('Король', 'king')">Выбрать</button>
                 </div>
             </div>
             <div class="confirm-container">
-                <button id="final-confirm-btn" class="confirm-btn" onclick="confirmHeroSelection()" disabled>ПОДТВЕРДИТЬ</button>
+                <button id="final-confirm-btn" class="confirm-btn" onclick="confirmHeroSelection()" disabled>ПОДТВЕРДИТЬ ВЫБОР</button>
             </div>
         </div>
     </div>
@@ -43,10 +50,15 @@
         <div class="menu-container">
             <div class="player-header" onclick="openInventory()">
                 <img id="menu-avatar" src="" class="player-avatar">
-                <div class="player-info"><h3 id="p-name-display">...</h3></div>
+                <div class="player-info">
+                    <h3 id="p-name-display">Загрузка...</h3>
+                    <p id="p-level-display">Уровень: 1</p>
+                </div>
             </div>
+            <div id="vip-btn" class="vip-button" onclick="this.classList.toggle('active')"><img src="icon_vip.png"></div>
             <div class="resources-column">
-                <div class="resource-panel"><img src="icon_gold.png"><span id="gold-val">1500</span></div>
+                <div class="resource-panel"><img src="icon_gold.png"><span id="gold-val" class="value">1500</span></div>
+                <div class="resource-panel blue"><img src="icon_crystal.png"><span id="crys-val" class="value">50</span></div>
             </div>
             <div id="ui-dynamic-layer"></div>
         </div>
@@ -57,17 +69,18 @@
         <div class="inv-container">
             <div class="hero-preview-box"><img id="inv-hero-img" src=""></div>
             <div class="equipment-grid">
-                <div class="inv-slot" id="helmet-slot"><img src="helmet.png"></div>
-                <div class="inv-slot" id="chestplate-slot"><img src="chestplate.png"></div>
-                <div class="inv-slot" id="hammer-slot"><img src="hammer.png"></div>
-                <div class="inv-slot" id="ring-slot"><img src="ring.png"></div>
-                <div class="inv-slot" id="bracers-slot"><img src="bracers.png"></div>
-                <div class="inv-slot" id="boots-slot"><img src="boots.png"></div>
-                <div class="inv-slot" id="hammer2-slot"><img src="hammer.png"></div>
-                <div class="inv-slot" id="ring2-slot"><img src="ring.png"></div>
+                <div class="inv-slot" id="helmet-slot"><img src="helmet.png" alt="Шлем"></div>
+                <div class="inv-slot" id="chestplate-slot"><img src="chestplate.png" alt="Нагрудник"></div>
+                <div class="inv-slot" id="hammer-slot"><img src="hammer.png" alt="Молот"></div>
+                <div class="inv-slot" id="ring-slot"><img src="ring.png" alt="Кольцо"></div>
+                <div class="inv-slot" id="bracers-slot"><img src="bracers.png" alt="Наручи"></div>
+                <div class="inv-slot" id="boots-slot"><img src="boots.png" alt="Ботинки"></div>
+                <div class="inv-slot" id="hammer2-slot"><img src="hammer.png" alt="Молот 2"></div>
+                <div class="inv-slot" id="ring2-slot"><img src="ring.png" alt="Кольцо 2"></div>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
