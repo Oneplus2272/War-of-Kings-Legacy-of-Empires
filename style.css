@@ -1,0 +1,66 @@
+:root {
+    --gold: #ffd700;
+    --blue: #00d4ff;
+    --bg-panel: rgba(10, 10, 15, 0.9);
+}
+
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #000;
+    font-family: 'Segoe UI', Tahoma, sans-serif; color: white;
+    user-select: none; -webkit-user-select: none;
+}
+
+.screen {
+    display: none; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    position: absolute; top: 0; left: 0;
+}
+
+/* ФОН ВЫБОРА ГЕРОЕВ */
+#selection-screen {
+    background: url('bg.png') no-repeat center center/cover;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+/* ЗАГРУЗКА */
+#loading-screen {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 2000; background: url('Loading_screen_war_of_kings.png') no-repeat center center/cover;
+}
+
+.logo-main { width: 220px; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--blue)); }
+#loading-pct { color: var(--blue); font-size: 1.2rem; margin-bottom: 8px; }
+.progress-bar { width: 200px; height: 12px; background: rgba(0,0,0,0.7); border: 1px solid var(--blue); border-radius: 6px; overflow: hidden; }
+.progress-fill { width: 0%; height: 100%; background: var(--blue); transition: width 0.3s; }
+
+/* КАРТОЧКИ ГЕРОЕВ */
+.hero-title { color: var(--gold); font-size: 24px; margin-bottom: 20px; text-shadow: 0 0 10px #000; }
+.cards-container { display: flex; gap: 15px; overflow-x: auto; width: 90%; padding: 10px; }
+.hero-card { background: rgba(0,0,0,0.8); border: 2px solid #333; border-radius: 15px; padding: 15px; min-width: 250px; text-align: center; }
+.hero-card.active { border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+.hero-image img { width: 150px; height: 150px; object-fit: cover; border-radius: 10px; }
+
+/* МЕНЮ И РЕСУРСЫ */
+#menu-screen { background: url('bg_menu_main.png') no-repeat center center/cover; }
+.resources-column { position: absolute; top: 20px; right: 15px; z-index: 20; }
+.resource-panel { 
+    display: flex; align-items: center; background: rgba(0,0,0,0.7); 
+    padding: 5px 15px; border-radius: 20px; border: 2px solid var(--gold); 
+}
+.resource-panel img { width: 25px; height: 25px; margin-right: 10px; }
+
+/* ОСТАЛЬНЫЕ СТИЛИ (Кнопки, Инвентарь и т.д.) */
+.confirm-btn { margin-top: 20px; padding: 15px 40px; background: var(--gold); border: none; font-weight: bold; border-radius: 10px; }
+.confirm-btn:disabled { background: #555; }
+.player-header { position: absolute; top: 20px; left: 15px; display: flex; align-items: center; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 15px; border: 1px solid var(--blue); }
+.player-avatar { width: 50px; height: 50px; border-radius: 10px; margin-right: 10px; }
+.icon-label { position: absolute; background: rgba(0,0,0,0.8); padding: 2px 8px; border-radius: 5px; font-size: 12px; }
+.game-icon { position: absolute; transition: 0.3s; }
+.game-icon.hidden { opacity: 0; transform: scale(0.5); pointer-events: none; }
+.nav-arrow-custom { position: absolute; width: 50px; height: 50px; background: #211; border: 2px solid var(--gold); border-radius: 50%; left: 50%; transform: translateX(-50%); top: -25px; cursor: pointer; }
+.bottom-panel-bg { position: absolute; background: rgba(20,10,0,0.8); border-top: 2px solid var(--gold); }
+#inventory-screen { z-index: 1000; background: url('character_preview.png') no-repeat center center/cover; }
+.inv-slot { position: absolute; width: 60px; height: 60px; }
+.inv-slot img { width: 100%; height: 100%; }
+.close-inv { position: absolute; top: 20px; right: 20px; font-size: 40px; color: white; z-index: 1100; }
