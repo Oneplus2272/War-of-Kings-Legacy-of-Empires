@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>War of Kings: Legacy of Empires</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #ffd700; font-family: 'Cinzel', serif; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        #loading-screen { text-align: center; width: 100%; position: absolute; }
+        .bar-container { width: 70%; height: 8px; background: #1a1a1a; border: 1px solid #ffd700; margin: 20px auto; border-radius: 4px; overflow: hidden; }
+        #bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ffd700, #b8860b); transition: width 0.2s; }
+        #selection-screen { display: none; opacity: 0; transition: opacity 1s; text-align: center; z-index: 10; }
+        .hero-card { display: inline-block; margin: 10px; padding: 15px; border: 1px solid gold; background: rgba(0,0,0,0.7); border-radius: 10px; }
+        button { background: gold; color: black; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <h1 style="letter-spacing: 3px;">WAR OF KINGS</h1>
+        <div class="bar-container"><div id="bar-fill"></div></div>
+        <p id="pct">0%</p>
+    </div>
+
+    <div id="selection-screen">
+        <h2 style="text-shadow: 0 0 10px gold;">ВЫБЕРИТЕ СВОЙ ПУТЬ</h2>
+        <div class="hero-card">
+            <h3>РЫЦАРЬ</h3>
+            <button onclick="pick('Knight')">ВЫБРАТЬ</button>
+        </div>
+        <div class="hero-card">
+            <h3>МАГ</h3>
+            <button onclick="pick('Mage')">ВЫБРАТЬ</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let p = 0;
+            const fill = document.getElementById('bar-fill');
+            const pctText = document.getElementById('pct');
+
+            // Загрузка идет сама по себе, гарантированно
+            const timer = setInterval(() => {
+                p += 5;
+                if (p > 100) p = 100;
+                fill.style.width = p + '%';
+                pctText.textContent = p + '%';
+
+                if (p >= 100) {
+                    clearInterval(timer);
+                    document.getElementById('loading-screen').style.display = 'none';
+                    const ss = document.getElementById('selection-screen');
+                    ss.style.display = 'block';
+                    setTimeout(() => ss.style.opacity = '1', 50);
+                }
+            }, 50);
+
+            // Пытаемся стукнуть в бэкенд на AdminVPS
+            fetch('http://45.128.204.64/api/status').then(() => console.log("Бэкенд готов!"));
+        })();
+
+        function pick(hero) {
+            alert("Ваш герой: " + hero + ". Сохраняем на сервере 45.128.204.64...");
+        }
+    </script>
+</body>
+</html>
