@@ -1,9 +1,9 @@
 const tg = window.Telegram?.WebApp;
-const SERVER_URL = 'http://45.128.204.64'; // Твой IP из скриншота
+const SERVER_URL = 'http://45.128.204.64'; 
 let userId = tg?.initDataUnsafe?.user?.id || 12345;
 let currentHeroId = null;
 
-// КООРДИНАТЫ (СТРОГО КАК ТЫ ВЫСТАВЛЯЛ)
+// ТВОИ КООРДИНАТЫ ИЗ СКРИНШОТОВ 1000009147 и 1000009148
 const tabletPositions = {
     'helmet-slot': { x: 14.21, y: 26.51, width: 235, height: 235 },
     'chestplate-slot': { x: 13.98, y: 37.87, width: 235, height: 235 },
@@ -41,11 +41,11 @@ const config = isTablet ? {
     layout: { quests: {x:-22, y:551, s:106}, battle: {x:59, y:553, s:119}, inventory: {x:248, y:547, s:112} }
 };
 
-// ЛОГИКА
-async function selectHero(name, id) {
+function selectHero(name, id) {
     currentHeroId = id;
     document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('active'));
-    document.getElementById('c-'+id).classList.add('active');
+    const card = document.getElementById('c-'+id);
+    if(card) card.classList.add('active');
     document.getElementById('final-confirm-btn').disabled = false;
 }
 
@@ -63,6 +63,7 @@ function showMenu() {
     const hero = heroesData[currentHeroId] || heroesData.tsar;
     document.getElementById('menu-avatar').src = hero.face;
     document.getElementById('inv-hero-img').src = hero.image;
+    document.getElementById('p-name-display').textContent = hero.name;
     buildUI();
 }
 
@@ -93,8 +94,10 @@ function openInventory() {
         Object.keys(pos).forEach(id => {
             const s = document.getElementById(id);
             if(s) {
-                s.style.left = pos[id].x+'%'; s.style.top = pos[id].y+'%';
-                s.style.width = pos[id].width+'px'; s.style.height = pos[id].height+'px';
+                s.style.left = pos[id].x+'%'; 
+                s.style.top = pos[id].y+'%';
+                s.style.width = pos[id].width+'px'; 
+                s.style.height = pos[id].height+'px';
             }
         });
     }, 50);
@@ -107,8 +110,10 @@ window.onload = () => {
     let p = 0;
     const interval = setInterval(() => {
         p += 5;
-        document.getElementById('progress-fill').style.width = p+'%';
-        document.getElementById('loading-pct').textContent = p+'%';
+        const fill = document.getElementById('progress-fill');
+        const pct = document.getElementById('loading-pct');
+        if(fill) fill.style.width = p+'%';
+        if(pct) pct.textContent = p+'%';
         if(p >= 100) {
             clearInterval(interval);
             document.getElementById('loading-screen').style.display = 'none';
