@@ -1,10 +1,9 @@
 const tg = window.Telegram?.WebApp;
-const SERVER_URL = 'http://45.128.204.64'; // Твой IP
+const SERVER_URL = 'http://45.128.204.64'; // Твой IP из скриншота
 let userId = tg?.initDataUnsafe?.user?.id || 12345;
 let currentHeroId = null;
-let currentPage = 1;
 
-// ТВОИ КООРДИНАТЫ И ЛОГИКА (БЕЗ ИЗМЕНЕНИЙ)
+// КООРДИНАТЫ (СТРОГО КАК ТЫ ВЫСТАВЛЯЛ)
 const tabletPositions = {
     'helmet-slot': { x: 14.21, y: 26.51, width: 235, height: 235 },
     'chestplate-slot': { x: 13.98, y: 37.87, width: 235, height: 235 },
@@ -28,24 +27,22 @@ const phonePositions = {
 };
 
 const heroesData = {
-    tsar: { name: "Царь", image: "hero_tsar.png", face: "face_1.png" },
-    sultan: { name: "Султан", image: "hero_sultan.png", face: "face_2.png" },
-    king: { name: "Король", image: "hero_king.png", face: "face_3.png" }
+    tsar: { name: "Царь", face: "face_1.png", image: "hero_tsar.png" },
+    sultan: { name: "Султан", face: "face_2.png", image: "hero_sultan.png" },
+    king: { name: "Король", face: "face_3.png", image: "hero_king.png" }
 };
-
-const iconNames = { quests: "Задания", battle: "Бой", alliance: "Союз", shop: "Магазин", inventory: "Инвентарь", community: "Сообщество" };
 
 const isTablet = window.innerWidth > 1024;
 const config = isTablet ? {
     panel: { x: -17, y: 880, w: 854, h: 130 },
-    layout: { quests: {x:-19, y:877, s:145}, battle: {x:102, y:880, s:160}, alliance: {x:237, y:882, s:150}, shop: {x:357, y:886, s:152}, inventory: {x:487, y:872, s:150} }
+    layout: { quests: {x:-19, y:877, s:145}, battle: {x:102, y:880, s:160}, inventory: {x:487, y:872, s:150} }
 } : {
     panel: { x: -24, y: 551, w: 448, h: 99 },
-    layout: { quests: {x:-22, y:551, s:106}, battle: {x:59, y:553, s:119}, alliance: {x:154, y:554, s:110}, inventory: {x:248, y:547, s:112} }
+    layout: { quests: {x:-22, y:551, s:106}, battle: {x:59, y:553, s:119}, inventory: {x:248, y:547, s:112} }
 };
 
-// ФУНКЦИИ
-function selectHero(name, id) {
+// ЛОГИКА
+async function selectHero(name, id) {
     currentHeroId = id;
     document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('active'));
     document.getElementById('c-'+id).classList.add('active');
@@ -61,12 +58,10 @@ async function confirmHeroSelection() {
 
 function showMenu() {
     document.getElementById('selection-screen').style.display = 'none';
-    const menu = document.getElementById('menu-screen');
-    menu.style.display = 'block';
-    setTimeout(() => menu.style.opacity = '1', 50);
+    document.getElementById('menu-screen').style.display = 'block';
+    setTimeout(() => document.getElementById('menu-screen').style.opacity = '1', 50);
     const hero = heroesData[currentHeroId] || heroesData.tsar;
     document.getElementById('menu-avatar').src = hero.face;
-    document.getElementById('p-name-display').textContent = hero.name;
     document.getElementById('inv-hero-img').src = hero.image;
     buildUI();
 }
@@ -94,8 +89,7 @@ function openInventory() {
     document.getElementById('inventory-screen').style.display = 'block';
     setTimeout(() => {
         document.getElementById('inventory-screen').style.opacity = '1';
-        const isMobile = window.innerWidth <= 599;
-        const pos = isMobile ? phonePositions : tabletPositions;
+        const pos = (window.innerWidth <= 599) ? phonePositions : tabletPositions;
         Object.keys(pos).forEach(id => {
             const s = document.getElementById(id);
             if(s) {
@@ -108,7 +102,7 @@ function openInventory() {
 
 function closeInventory() { document.getElementById('inventory-screen').style.display = 'none'; }
 
-window.onload = async () => {
+window.onload = () => {
     if(tg) { tg.expand(); tg.ready(); }
     let p = 0;
     const interval = setInterval(() => {
