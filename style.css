@@ -1,66 +1,87 @@
 :root {
     --gold: #ffd700;
     --blue: #00d4ff;
+    --purple: #bf40bf;
     --bg-panel: rgba(10, 10, 15, 0.9);
+    --bg-modal: rgba(5, 5, 10, 0.95);
 }
 
 body, html {
-    margin: 0; padding: 0; width: 100%; height: 100%;
-    overflow: hidden; background-color: #000;
-    font-family: 'Segoe UI', Tahoma, sans-serif; color: white;
-    user-select: none; -webkit-user-select: none;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: white;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .screen {
     display: none; width: 100%; height: 100%;
     background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 0.4s ease;
     position: absolute; top: 0; left: 0;
 }
 
-/* ФОН ВЫБОРА ГЕРОЕВ */
-#selection-screen {
-    background: url('bg.png') no-repeat center center/cover;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
-/* ЗАГРУЗКА */
 #loading-screen {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     z-index: 2000; background: url('Loading_screen_war_of_kings.png') no-repeat center center/cover;
+    opacity: 1;
 }
-
 .logo-main { width: 220px; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--blue)); }
-#loading-pct { color: var(--blue); font-size: 1.2rem; margin-bottom: 8px; }
-.progress-bar { width: 200px; height: 12px; background: rgba(0,0,0,0.7); border: 1px solid var(--blue); border-radius: 6px; overflow: hidden; }
+.loader-container { width: 70%; max-width: 300px; text-align: center; }
+#loading-pct { margin-bottom: 8px; font-weight: bold; color: var(--blue); font-size: 1.2rem; text-shadow: 0 0 10px var(--blue); }
+.progress-bar { height: 12px; background: rgba(0, 0, 0, 0.7); border: 1px solid var(--blue); border-radius: 6px; overflow: hidden; }
 .progress-fill { width: 0%; height: 100%; background: var(--blue); transition: width 0.3s; }
 
-/* КАРТОЧКИ ГЕРОЕВ */
-.hero-title { color: var(--gold); font-size: 24px; margin-bottom: 20px; text-shadow: 0 0 10px #000; }
-.cards-container { display: flex; gap: 15px; overflow-x: auto; width: 90%; padding: 10px; }
-.hero-card { background: rgba(0,0,0,0.8); border: 2px solid #333; border-radius: 15px; padding: 15px; min-width: 250px; text-align: center; }
-.hero-card.active { border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
-.hero-image img { width: 150px; height: 150px; object-fit: cover; border-radius: 10px; }
+#selection-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; }
+.selection-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.hero-title { color: var(--gold); font-size: 28px; margin-bottom: 30px; text-align: center; text-transform: uppercase; text-shadow: 0 0 15px var(--gold); }
+.cards-container { display: flex; flex-direction: row; gap: 30px; padding: 20px; width: 100%; max-width: 1200px; justify-content: center; align-items: center; overflow-x: auto; }
+.hero-card { background: rgba(26, 26, 26, 0.9); border-radius: 20px; padding: 25px; width: 320px; min-width: 300px; text-align: center; border: 2px solid #333; transition: all 0.3s ease; position: relative; backdrop-filter: blur(10px); }
+.hero-card.active { border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); transform: translateY(-10px); }
+.hero-image { width: 220px; height: 220px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; background: #2a2a2a; display: flex; align-items: center; justify-content: center; border: 3px solid #333; transition: all 0.3s ease; }
+.hero-card.active .hero-image { border-color: var(--gold); box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: all 0.3s ease; }
+.hero-card.active .hero-image img { filter: brightness(1.1); }
+.hero-name { color: var(--gold); font-size: 22px; margin-bottom: 12px; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+.hero-description { color: #ccc; font-size: 15px; margin-bottom: 20px; min-height: 45px; padding: 0 10px; }
+.select-btn { width: 100%; padding: 14px; background: linear-gradient(to bottom, var(--gold), #b8860b); color: #000; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
+.confirm-container { margin-top: 50px; width: 100%; max-width: 400px; padding: 0 20px; }
+.confirm-btn { width: 100%; padding: 18px; background: linear-gradient(to bottom, var(--gold), #b8860b); color: #000; border: none; border-radius: 12px; font-weight: bold; font-size: 20px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
+.confirm-btn:disabled { background: #666; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
 
-/* МЕНЮ И РЕСУРСЫ */
-#menu-screen { background: url('bg_menu_main.png') no-repeat center center/cover; }
-.resources-column { position: absolute; top: 20px; right: 15px; z-index: 20; }
-.resource-panel { 
-    display: flex; align-items: center; background: rgba(0,0,0,0.7); 
-    padding: 5px 15px; border-radius: 20px; border: 2px solid var(--gold); 
-}
-.resource-panel img { width: 25px; height: 25px; margin-right: 10px; }
+#menu-screen { background: url('bg_menu_main.png') no-repeat center center/cover; z-index: 10; }
+.resources-column { position: absolute; top: env(safe-area-inset-top, 20px); right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 20; }
+.resource-panel { display: flex; align-items: center; background: rgba(0, 0, 0, 0.75); padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(8px); border: 1px solid var(--gold); min-width: 100px; }
+.resource-panel.blue { border-color: var(--blue); }
+.resource-panel img { width: 22px; height: 22px; margin-right: 8px; }
+.resource-panel .value { font-size: 1rem; font-weight: bold; }
+.player-header { position: absolute; top: env(safe-area-inset-top, 20px); left: 15px; display: flex; align-items: center; background: rgba(0, 0, 0, 0.75); padding: 8px; border-radius: 14px; border: 1px solid var(--blue); backdrop-filter: blur(10px); z-index: 20; cursor: pointer; }
+.player-avatar { width: 60px; height: 60px; border-radius: 12px; border: 2px solid var(--gold); margin-right: 12px; object-fit: cover; }
+.player-info h3 { margin: 0; color: var(--gold); font-size: 1rem; }
+.player-info p { margin: 0; font-size: 0.8rem; color: #ccc; }
+.vip-button { position: absolute; top: env(safe-area-inset-top, 20px); left: 50%; transform: translateX(-50%); width: 80px; height: 80px; z-index: 20; filter: grayscale(1); transition: 0.3s; cursor: pointer; }
+.vip-button.active { filter: grayscale(0); }
+.vip-button img { width: 100%; height: 100%; object-fit: contain; }
+.bottom-panel-bg { position: absolute; background: rgba(30, 15, 5, 0.8); border-top: 3px solid var(--gold); pointer-events: none; transition: border-color 0.5s, box-shadow 0.5s; box-shadow: 0 -5px 20px rgba(255, 215, 0, 0.3); z-index: 15; }
+.bottom-panel-bg.page2 { border-color: var(--blue); box-shadow: 0 -5px 20px rgba(0, 212, 255, 0.3); }
+.nav-arrow-custom { position: absolute; left: 50%; top: -60px; transform: translateX(-50%); width: 55px; height: 55px; background: rgba(15,5,0,0.95); border: 3px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; pointer-events: auto; z-index: 30; transition: 0.4s; cursor: pointer; }
+.nav-arrow-custom::after { content: ''; width: 12px; height: 12px; border-top: 4px solid var(--gold); border-right: 4px solid var(--gold); transform: rotate(45deg); margin-right: 4px; }
+.nav-arrow-custom.flip { transform: translateX(-50%) rotate(180deg); border-color: var(--blue); }
+.nav-arrow-custom.flip::after { border-color: var(--blue); }
+.game-icon { position: absolute; pointer-events: auto; z-index: 25; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; cursor: pointer; }
+.game-icon.hidden { opacity: 0; transform: translateY(100px) scale(0.5); pointer-events: none; }
+.game-icon img { width: 100%; height: 100%; object-fit: contain; }
+.icon-label { position: absolute; text-align: center; color: white; font-weight: bold; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); pointer-events: auto; z-index: 26; font-family: 'Segoe UI', Tahoma, sans-serif; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 6px; padding: 4px 8px; backdrop-filter: blur(4px); white-space: nowrap; min-width: 80px; transform: translateX(-50%); }
+.icon-label.hidden { opacity: 0; transform: translateY(100px) scale(0.5) translateX(-50%); pointer-events: none; }
 
-/* ОСТАЛЬНЫЕ СТИЛИ (Кнопки, Инвентарь и т.д.) */
-.confirm-btn { margin-top: 20px; padding: 15px 40px; background: var(--gold); border: none; font-weight: bold; border-radius: 10px; }
-.confirm-btn:disabled { background: #555; }
-.player-header { position: absolute; top: 20px; left: 15px; display: flex; align-items: center; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 15px; border: 1px solid var(--blue); }
-.player-avatar { width: 50px; height: 50px; border-radius: 10px; margin-right: 10px; }
-.icon-label { position: absolute; background: rgba(0,0,0,0.8); padding: 2px 8px; border-radius: 5px; font-size: 12px; }
-.game-icon { position: absolute; transition: 0.3s; }
-.game-icon.hidden { opacity: 0; transform: scale(0.5); pointer-events: none; }
-.nav-arrow-custom { position: absolute; width: 50px; height: 50px; background: #211; border: 2px solid var(--gold); border-radius: 50%; left: 50%; transform: translateX(-50%); top: -25px; cursor: pointer; }
-.bottom-panel-bg { position: absolute; background: rgba(20,10,0,0.8); border-top: 2px solid var(--gold); }
-#inventory-screen { z-index: 1000; background: url('character_preview.png') no-repeat center center/cover; }
-.inv-slot { position: absolute; width: 60px; height: 60px; }
-.inv-slot img { width: 100%; height: 100%; }
-.close-inv { position: absolute; top: 20px; right: 20px; font-size: 40px; color: white; z-index: 1100; }
+#inventory-screen { background: url('character_preview.png') no-repeat center center/cover; z-index: 500; overflow: hidden; }
+.close-inv { position: absolute; top: 30px; left: 30px; font-size: 3rem; color: white; cursor: pointer; z-index: 601; text-shadow: 0 0 10px #000; }
+.inv-container { width: 100%; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.hero-preview-box { position: absolute; transform: translate(-50%, -50%); z-index: 1; }
+.equipment-grid { position: absolute; width: 100%; height: 100%; display: flex; justify-content: space-between; align-items: center; pointer-events: none
