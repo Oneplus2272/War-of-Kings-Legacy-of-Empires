@@ -2,67 +2,75 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>War of Kings: Legacy of Empires</title>
-    <style>
-        body { margin: 0; padding: 0; background: #000; color: #ffd700; font-family: 'Cinzel', serif; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        #loading-screen { text-align: center; width: 100%; position: absolute; }
-        .bar-container { width: 70%; height: 8px; background: #1a1a1a; border: 1px solid #ffd700; margin: 20px auto; border-radius: 4px; overflow: hidden; }
-        #bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ffd700, #b8860b); transition: width 0.2s; }
-        #selection-screen { display: none; opacity: 0; transition: opacity 1s; text-align: center; z-index: 10; }
-        .hero-card { display: inline-block; margin: 10px; padding: 15px; border: 1px solid gold; background: rgba(0,0,0,0.7); border-radius: 10px; }
-        button { background: gold; color: black; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Void Echoes RPG</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-
-    <div id="loading-screen">
-        <h1 style="letter-spacing: 3px;">WAR OF KINGS</h1>
-        <div class="bar-container"><div id="bar-fill"></div></div>
-        <p id="pct">0%</p>
-    </div>
-
-    <div id="selection-screen">
-        <h2 style="text-shadow: 0 0 10px gold;">ВЫБЕРИТЕ СВОЙ ПУТЬ</h2>
-        <div class="hero-card">
-            <h3>РЫЦАРЬ</h3>
-            <button onclick="pick('Knight')">ВЫБРАТЬ</button>
-        </div>
-        <div class="hero-card">
-            <h3>МАГ</h3>
-            <button onclick="pick('Mage')">ВЫБРАТЬ</button>
+    <div id="loading-screen" class="screen" style="display: flex; opacity: 1;">
+        <img src="icon_logo_void_echoes.png" class="logo-main">
+        <div class="loader-container">
+            <div id="loading-pct">0%</div>
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
         </div>
     </div>
 
-    <script>
-        (function() {
-            let p = 0;
-            const fill = document.getElementById('bar-fill');
-            const pctText = document.getElementById('pct');
+    <div id="selection-screen" class="screen">
+        <div class="selection-container">
+            <div class="hero-title">ВЫБЕРИ СВОЕГО ГЕРОЯ</div>
+            <div class="cards-container">
+                <div class="hero-card" id="c-tsar" onclick="selectHero('Царь', 'tsar')">
+                    <div class="hero-image"><img src="hero_tsar.png"></div>
+                    <div class="hero-name">Царь</div>
+                </div>
+                <div class="hero-card" id="c-sultan" onclick="selectHero('Султан', 'sultan')">
+                    <div class="hero-image"><img src="hero_sultan.png"></div>
+                    <div class="hero-name">Султан</div>
+                </div>
+                <div class="hero-card" id="c-king" onclick="selectHero('Король', 'king')">
+                    <div class="hero-image"><img src="hero_king.png"></div>
+                    <div class="hero-name">Король</div>
+                </div>
+            </div>
+            <div class="confirm-container">
+                <button id="final-confirm-btn" class="confirm-btn" onclick="confirmHeroSelection()" disabled>ПОДТВЕРДИТЬ</button>
+            </div>
+        </div>
+    </div>
 
-            // Загрузка идет сама по себе, гарантированно
-            const timer = setInterval(() => {
-                p += 5;
-                if (p > 100) p = 100;
-                fill.style.width = p + '%';
-                pctText.textContent = p + '%';
+    <div id="menu-screen" class="screen">
+        <div class="menu-container">
+            <div class="player-header" onclick="openInventory()">
+                <img id="menu-avatar" src="" class="player-avatar">
+                <div class="player-info">
+                    <h3 id="p-name-display">Загрузка...</h3>
+                </div>
+            </div>
+            <div class="resources-column">
+                <div class="resource-panel"><img src="icon_gold.png"><span id="gold-val">1500</span></div>
+            </div>
+            <div id="ui-dynamic-layer"></div>
+        </div>
+    </div>
 
-                if (p >= 100) {
-                    clearInterval(timer);
-                    document.getElementById('loading-screen').style.display = 'none';
-                    const ss = document.getElementById('selection-screen');
-                    ss.style.display = 'block';
-                    setTimeout(() => ss.style.opacity = '1', 50);
-                }
-            }, 50);
+    <div id="inventory-screen" class="screen">
+        <div class="close-inv" onclick="closeInventory()">×</div>
+        <div class="inv-container">
+            <div class="hero-preview-box"><img id="inv-hero-img" src=""></div>
+            <div class="equipment-grid">
+                <div class="inv-slot" id="helmet-slot"><img src="helmet.png"></div>
+                <div class="inv-slot" id="chestplate-slot"><img src="chestplate.png"></div>
+                <div class="inv-slot" id="hammer-slot"><img src="hammer.png"></div>
+                <div class="inv-slot" id="ring-slot"><img src="ring.png"></div>
+                <div class="inv-slot" id="bracers-slot"><img src="bracers.png"></div>
+                <div class="inv-slot" id="boots-slot"><img src="boots.png"></div>
+                <div class="inv-slot" id="hammer2-slot"><img src="hammer.png"></div>
+                <div class="inv-slot" id="ring2-slot"><img src="ring.png"></div>
+            </div>
+        </div>
+    </div>
 
-            // Пытаемся стукнуть в бэкенд на AdminVPS
-            fetch('http://45.128.204.64/api/status').then(() => console.log("Бэкенд готов!"));
-        })();
-
-        function pick(hero) {
-            alert("Ваш герой: " + hero + ". Сохраняем на сервере 45.128.204.64...");
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
