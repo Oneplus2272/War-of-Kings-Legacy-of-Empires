@@ -49,63 +49,67 @@
         }
         .selection-container { width: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
         .hero-title { color: var(--gold); font-size: 28px; margin-bottom: 30px; text-transform: uppercase; text-shadow: 0 0 15px var(--gold); }
+        .cards-container { display: flex; flex-direction: column; gap: 40px; width: 100%; max-width: 500px; align-items: center; }
         
-        /* Список героев в колонку */
-        .cards-container { 
-            display: flex; flex-direction: column; /* Герои в ряд вниз */
-            gap: 40px; width: 100%; max-width: 500px; align-items: center; 
-        }
-        
-        /* Большая рамка, внутри прозрачный герой */
         .hero-card { 
             background: transparent; 
-            border: 4px solid var(--gold); /* Рамка есть */
+            border: 4px solid var(--gold); 
             border-radius: 20px; padding: 20px;
             width: 100%; text-align: center;
             transition: all 0.3s ease; position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .hero-card.active { transform: scale(1.02); box-shadow: 0 0 30px var(--gold); }
         .hero-image { width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; background: transparent; }
-        .hero-image img { width: 100%; height: 100%; object-fit: contain; } /* Прозрачный герой */
+        .hero-image img { width: 100%; height: 100%; object-fit: contain; }
 
         .hero-name { color: var(--gold); font-size: 24px; margin: 15px 0; text-transform: uppercase; }
         .select-btn { width: 80%; padding: 12px; background: linear-gradient(to bottom, var(--gold), #b8860b); color: #000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
         /* --- ГЛАВНОЕ МЕНЮ --- */
         #menu-screen { background: url('bg_menu_main.png') no-repeat center center/cover; z-index: 10; }
-        .player-header { position: absolute; top: env(safe-area-inset-top, 20px); left: 15px; display: flex; align-items: center; z-index: 20; }
+        .menu-container { position: relative; width: 100%; height: 100%; }
+
+        .player-header { position: absolute; top: env(safe-area-inset-top, 20px); left: 15px; display: flex; align-items: center; z-index: 20; cursor: pointer; }
         .avatar-container { position: relative; width: 70px; height: 70px; z-index: 25; }
-        .player-avatar { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; z-index: 25; position: relative; }
+        .player-avatar { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; background: rgba(0,0,0,0.5); position: relative; z-index: 25; }
         .lvl-circle { position: absolute; bottom: -2px; left: -2px; width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700, #ff8c00); border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 14px; font-weight: bold; z-index: 30; }
         .player-info-box { position: absolute; left: 40px; bottom: 5px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold); padding: 2px 10px 2px 35px; border-radius: 0 8px 8px 0; min-width: 110px; z-index: 20; }
-        
+        .player-info-box h3 { margin: 0; color: var(--gold); font-size: 0.9rem; }
+        .player-info-box p { margin: 0; font-size: 0.7rem; color: #fff; }
+
         .resource-panel { position: absolute; top: env(safe-area-inset-top, 20px); right: 15px; display: flex; align-items: center; background: rgba(144, 238, 144, 0.85); padding: 5px 12px; border-radius: 4px; border: 1px solid #2e8b57; z-index: 20; }
         .resource-panel img { width: 33px; height: 33px; margin-right: 8px; }
         .resource-panel .value { font-size: 1rem; font-weight: bold; color: #000; }
 
         .vip-button { position: absolute; top: calc(env(safe-area-inset-top, 20px) + 27px); left: 50%; transform: translateX(-50%); width: 80px; height: 80px; z-index: 20; cursor: pointer; }
+        .vip-button img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* --- VIP МАГАЗИН И РЕДАКТОР --- */
+        .bottom-panel-bg { position: absolute; background: rgba(30, 15, 5, 0.8); border-top: 3px solid var(--gold); pointer-events: none; z-index: 15; transition: 0.4s; }
+        .nav-arrow-custom { position: absolute; left: 50%; top: -60px; transform: translateX(-50%); width: 55px; height: 55px; background: rgba(15,5,0,0.95); border: 3px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; pointer-events: auto; z-index: 30; cursor: pointer; }
+        .nav-arrow-custom::after { content: ''; width: 12px; height: 12px; border-top: 4px solid var(--gold); border-right: 4px solid var(--gold); transform: rotate(45deg); margin-right: 4px; }
+        .nav-arrow-custom.flip { transform: translateX(-50%) rotate(180deg); }
+
+        .game-icon { position: absolute; pointer-events: auto; z-index: 25; transition: transform 0.6s, opacity 0.4s; cursor: pointer; }
+        .game-icon.hidden { opacity: 0; transform: translateY(100px) scale(0.5); pointer-events: none; }
+        .game-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .icon-label { position: absolute; text-align: center; color: white; font-weight: bold; text-shadow: 0 1px 3px #000; z-index: 26; background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 6px; padding: 4px 8px; white-space: nowrap; transform: translateX(-50%); transition: transform 0.6s, opacity 0.4s; }
+        .icon-label.hidden { opacity: 0; transform: translateY(100px) scale(0.5) translateX(-50%); }
+
+        /* --- ИНВЕНТАРЬ --- */
+        #inventory-screen { background: url('character_preview.png') no-repeat center center/cover; z-index: 500; }
+        .close-inv { position: absolute; top: 30px; left: 30px; font-size: 3rem; color: white; cursor: pointer; z-index: 601; }
+        .inv-container { width: 100%; height: 100%; position: relative; }
+        .hero-preview-box { position: absolute; top: 50%; left: 50%; transform: translate(calc(-50% + 6px), -50%); z-index: 1; }
+        .inv-slot { position: absolute; pointer-events: auto; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .inv-slot img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- VIP РЕДАКТОР --- */
         #vip-shop-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1050; overflow-y: auto; color: black; }
         .shop-header-frame { width: 100%; height: 100px; background: linear-gradient(to right, #8b4513, #cd853f, #8b4513); border-bottom: 4px solid #ffd700; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .shop-header-frame h2 { color: #fff; font-size: 36px; z-index: 2; }
-        
-        /* Кнопка сохранить для планшета */
-        .save-layout-btn { 
-            position: fixed; bottom: 20px; right: 20px; 
-            padding: 15px 30px; background: #28a745; color: white; 
-            border: none; border-radius: 10px; font-weight: bold; 
-            z-index: 2000; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .save-layout-btn { position: fixed; bottom: 20px; right: 20px; padding: 15px 30px; background: #28a745; color: white; border: none; border-radius: 10px; font-weight: bold; z-index: 2000; cursor: pointer; }
 
-        .vip-shop-item { 
-            position: relative; width: 100vw; height: 360px; margin: 20px 0; 
-            background: url('icon_vip_ramka.png') no-repeat center center/100% 100%; 
-            overflow: hidden;
-        }
-
-        /* Элементы, которые можно будет двигать в коде (я оставил их абсолютными) */
+        .vip-shop-item { position: relative; width: 100vw; height: 360px; margin: 20px 0; background: url('icon_vip_ramka.png') no-repeat center center/100% 100%; }
         .editable-element { position: absolute; cursor: move; }
         .item-title { top: 40px; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 32px; }
         .item-desc { top: 90px; left: 50%; transform: translateX(-50%); font-size: 24px; }
@@ -113,14 +117,8 @@
         .buy-price-btn img { width: 56px; height: 56px; }
 
         .close-white-btn { position: absolute; top: 15px; right: 15px; font-size: 32px; font-weight: bold; cursor: pointer; z-index: 1100; color: #fff; }
-
-        /* Искорки */
         .sparkle { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: spark 2s infinite; }
         @keyframes spark { 0% { transform: translateY(50px) scale(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-50px) scale(1.2); opacity: 0; } }
-
-        /* Прочее */
-        .bottom-panel-bg { position: absolute; background: rgba(30, 15, 5, 0.8); border-top: 3px solid var(--gold); width: 100%; bottom: 0; height: 100px; z-index: 15; }
-        .nav-arrow-custom { position: absolute; left: 50%; top: -30px; transform: translateX(-50%); width: 50px; height: 50px; background: #1a0a00; border: 2px solid var(--gold); border-radius: 50%; z-index: 30; }
 
     </style>
 </head>
@@ -150,28 +148,41 @@
                     <div class="hero-name">Султан</div>
                     <button class="select-btn" onclick="selectHero('sultan')">Выбрать</button>
                 </div>
+                <div class="hero-card" id="c-king">
+                    <div class="hero-image"><img src="hero_king.png"></div>
+                    <div class="hero-name">Король</div>
+                    <button class="select-btn" onclick="selectHero('king')">Выбрать</button>
+                </div>
             </div>
             <button id="final-confirm-btn" style="margin-top:30px; padding:20px 50px; background:var(--gold); border:none; font-weight:bold; display:none;" onclick="showMenu()">ПОДТВЕРДИТЬ</button>
         </div>
     </div>
 
     <div id="menu-screen" class="screen">
-        <div class="player-header">
-            <div class="avatar-container">
-                <img id="menu-avatar" src="" class="player-avatar">
-                <div class="lvl-circle">1</div>
+        <div class="menu-container">
+            <div class="player-header" onclick="openInventory()">
+                <div class="avatar-container">
+                    <img id="menu-avatar" src="" class="player-avatar">
+                    <div class="lvl-circle">1</div>
+                </div>
+                <div class="player-info-box">
+                    <h3 id="p-name">Герой</h3>
+                    <p>Сила: 1250</p>
+                </div>
             </div>
-            <div class="player-info-box">
-                <h3 id="p-name">Герой</h3>
-                <p>Сила: 1250</p>
-            </div>
+            
+            <div class="resource-panel"><img src="icon_gold.png"><span class="value">1500</span></div>
+            <div class="vip-button" onclick="openVipShop()"><img src="icon_vip.png"></div>
+            
+            <div id="ui-dynamic-layer"></div>
         </div>
-        
-        <div class="resource-panel"><img src="icon_gold.png"><span class="value">1500</span></div>
-        <div class="vip-button" onclick="openVipShop()"><img src="icon_vip.png" style="width:100%;"></div>
-        
-        <div class="bottom-panel-bg">
-            <div class="nav-arrow-custom"></div>
+    </div>
+
+    <div id="inventory-screen" class="screen">
+        <div class="close-inv" onclick="closeInventory()">×</div>
+        <div class="inv-container">
+            <div class="hero-preview-box"><img id="inv-hero-img" src="" style="width: 300px;"></div>
+            <div id="inv-slots-layer"></div>
         </div>
     </div>
 
@@ -194,12 +205,30 @@
     </div>
 
     <script>
-        let currentHero = null;
+        const tg = window.Telegram?.WebApp;
+        let currentHeroId = null;
+        let currentPage = 1;
+
+        const heroesData = { 
+            tsar: { name: "Царь", face: "face_1.png", img: "hero_tsar.png" }, 
+            sultan: { name: "Султан", face: "face_2.png", img: "hero_sultan.png" }, 
+            king: { name: "Король", face: "face_3.png", img: "hero_king.png" } 
+        };
+
+        const tabletInv = { 'helmet-slot': { x: 14.21, y: 26.51, w: 235 }, 'chestplate-slot': { x: 13.98, y: 37.87, w: 235 }, 'hammer-slot': { x: 15.24, y: 47.98, w: 235 }, 'ring-slot': { x: 15.68, y: 57.19, w: 235 }, 'bracers-slot': { x: 55.51, y: 26.39, w: 235 }, 'boots-slot': { x: 55.28, y: 36.96, w: 235 }, 'hammer2-slot': { x: 55.78, y: 47.74, w: 235 }, 'ring2-slot': { x: 55.96, y: 57.14, w: 235 } };
+        const phoneInv = { 'helmet-slot': { x: 5.23, y: 28.63, w: 144 }, 'chestplate-slot': { x: 5.55, y: 40.42, w: 144 }, 'hammer-slot': { x: 6.80, y: 50.75, w: 144 }, 'ring-slot': { x: 7.22, y: 59.82, w: 144 }, 'bracers-slot': { x: 60.00, y: 27.90, w: 144 }, 'boots-slot': { x: 59.86, y: 39.20, w: 144 }, 'hammer2-slot': { x: 60.00, y: 50.64, w: 144 }, 'ring2-slot': { x: 60.00, y: 59.33, w: 144 } };
+
+        const pages = { 1: ["quests", "battle", "alliance", "shop", "inventory", "community"], 2: ["benchmark", "rating", "profile", "lotto", "calendar", "mail"] };
+        const iconNames = { quests: "Задания", battle: "Бой", community: "Сообщество", mail: "Письмо", calendar: "Календарь", alliance: "Союз", shop: "Магазин", inventory: "Инвентарь", profile: "Профиль", rating: "Рейтинг", lotto: "Лотерея", benchmark: "Эталон" };
+        const textPos = { quests: {x: 59, y: 985}, battle: {x: 183, y: 985}, profile: {x: 179, y: 986}, mail: {x: 41, y: 988}, community: {x: 64, y: 234}, calendar: {x: 66, y: 583}, alliance: {x: 312, y: 988}, shop: {x: 438, y: 987}, inventory: {x: 565, y: 986}, rating: {x: 313, y: 987}, lotto: {x: 430, y: 987}, benchmark: {x: 565, y: 986} };
+
+        const isTab = window.innerWidth > 600;
+        const config = isTab ? { panel: { x: -17, y: 880, w: 854, h: 130 }, layout: { quests: {x:-19, y:877, s:145}, battle: {x:102, y:880, s:160}, alliance: {x:237, y:882, s:150}, shop: {x:357, y:886, s:152}, inventory: {x:487, y:872, s:150}, community: {x:-15, y:127, s:153, static: true}, benchmark: {x:477, y:868, s:162}, rating: {x:229, y:871, s:162}, profile: {x:99, y:867, s:165}, lotto: {x:344, y:870, s:167}, calendar: {x:-69, y:414, s:256, static: true}, mail: {x:-79, y:835, s:243} } } : { panel: { x: -24, y: 551, w: 448, h: 99 }, layout: { quests: {x:-22, y:551, s:106}, battle: {x:59, y:553, s:119}, alliance: {x:154, y:554, s:110}, shop: {x:246, y:94, s:115, static: true}, inventory: {x:248, y:547, s:112}, community: {x:-10, y:150, s:114, static: true}, benchmark: {x:238, y:542, s:127}, rating: {x:57, y:544, s:127}, profile: {x:-27, y:543, s:123}, lotto: {x:143, y:543, s:131}, calendar: {x:218, y:358, s:188, static: true}, mail: {x:-47, y:250, s:190, static: true} } };
 
         function selectHero(id) {
             document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('active'));
             document.getElementById('c-'+id).classList.add('active');
-            currentHero = id;
+            currentHeroId = id;
             document.getElementById('final-confirm-btn').style.display = 'block';
         }
 
@@ -207,58 +236,91 @@
             document.getElementById('selection-screen').style.display = 'none';
             document.getElementById('menu-screen').style.display = 'block';
             document.getElementById('menu-screen').style.opacity = '1';
-            document.getElementById('menu-avatar').src = currentHero === 'tsar' ? 'face_1.png' : 'face_2.png';
-            document.getElementById('p-name').textContent = currentHero === 'tsar' ? 'Царь' : 'Султан';
+            document.getElementById('menu-avatar').src = heroesData[currentHeroId].face;
+            document.getElementById('p-name').textContent = heroesData[currentHeroId].name;
+            document.getElementById('inv-hero-img').src = heroesData[currentHeroId].img;
+            buildUI();
         }
 
-        function openVipShop() {
-            document.getElementById('vip-shop-modal').style.display = 'block';
-            document.getElementById('save-btn').style.display = 'block';
-            createSparkles();
+        function buildUI() {
+            const layer = document.getElementById('ui-dynamic-layer');
+            layer.innerHTML = '';
+            const bg = document.createElement('div');
+            bg.className = 'bottom-panel-bg';
+            Object.assign(bg.style, { left: config.panel.x+'px', top: config.panel.y+'px', width: config.panel.w+'px', height: config.panel.h+'px' });
+            const arrow = document.createElement('div');
+            arrow.className = 'nav-arrow-custom';
+            arrow.onclick = () => { currentPage = currentPage === 1 ? 2 : 1; arrow.classList.toggle('flip'); updateIcons(); };
+            bg.appendChild(arrow);
+            layer.appendChild(bg);
+
+            Object.keys(config.layout).forEach(id => {
+                const d = config.layout[id];
+                const icon = document.createElement('div');
+                icon.id = 'icon-' + id; icon.className = 'game-icon';
+                Object.assign(icon.style, { width: d.s+'px', height: d.s+'px', left: d.x+'px', top: d.y+'px' });
+                icon.innerHTML = `<img src="icon_${id}.png">`;
+                icon.onclick = () => id === 'inventory' ? openInventory() : null;
+                layer.appendChild(icon);
+                const label = document.createElement('div');
+                label.id = 'label-' + id; label.className = 'icon-label'; label.textContent = iconNames[id];
+                const p = textPos[id] || {x: d.x+d.s/2, y: d.y+d.s+5};
+                Object.assign(label.style, { left: p.x+'px', top: p.y+'px' });
+                layer.appendChild(label);
+            });
+            updateIcons();
         }
 
-        function closeVipShop() {
-            document.getElementById('vip-shop-modal').style.display = 'none';
-            document.getElementById('save-btn').style.display = 'none';
+        function updateIcons() {
+            Object.keys(config.layout).forEach(id => {
+                const vis = config.layout[id].static || pages[currentPage].includes(id);
+                document.getElementById('icon-'+id).classList.toggle('hidden', !vis);
+                document.getElementById('label-'+id).classList.toggle('hidden', !vis);
+            });
         }
 
+        function openInventory() {
+            document.getElementById('inventory-screen').style.display = 'block';
+            const layer = document.getElementById('inv-slots-layer');
+            layer.innerHTML = '';
+            const pos = isTab ? tabletInv : phoneInv;
+            Object.keys(pos).forEach(id => {
+                const slot = document.createElement('div');
+                slot.className = 'inv-slot';
+                Object.assign(slot.style, { left: pos[id].x+'%', top: pos[id].y+'%', width: pos[id].w+'px', height: pos[id].w+'px' });
+                slot.innerHTML = `<img src="${id.split('-')[0]}.png">`;
+                layer.appendChild(slot);
+            });
+        }
+        function closeInventory() { document.getElementById('inventory-screen').style.display = 'none'; }
+
+        function openVipShop() { document.getElementById('vip-shop-modal').style.display = 'block'; document.getElementById('save-btn').style.display = 'block'; createSparkles(); }
+        function closeVipShop() { document.getElementById('vip-shop-modal').style.display = 'none'; document.getElementById('save-btn').style.display = 'none'; }
+        
         function createSparkles() {
             const container = document.getElementById('sparkles-container');
             container.innerHTML = '';
             for(let i=0; i<15; i++) {
-                const s = document.createElement('div');
-                s.className = 'sparkle';
-                s.style.left = Math.random() * 100 + '%';
-                s.style.top = Math.random() * 100 + '%';
-                s.style.width = s.style.height = Math.random() * 5 + 2 + 'px';
-                s.style.animationDelay = Math.random() * 2 + 's';
+                const s = document.createElement('div'); s.className = 'sparkle';
+                s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
+                s.style.width = s.style.height = Math.random()*5+2+'px';
+                s.style.animationDelay = Math.random()*2+'s';
                 container.appendChild(s);
             }
         }
 
-        // Функция сохранения для тебя (выведет в консоль текущие стили элементов)
         function saveEditorSettings() {
             const items = document.querySelectorAll('.editable-element');
-            let report = "ТЕКУЩИЕ НАСТРОЙКИ:\n";
-            items.forEach(el => {
-                report += `${el.className}: top:${el.style.top}, left:${el.style.left}, size:${el.style.fontSize}\n`;
-            });
-            console.log(report);
-            alert("Размеры и позиции сохранены в консоль (F12)!");
+            let res = "НАСТРОЙКИ:\n";
+            items.forEach(el => res += `${el.className}: T:${el.style.top} L:${el.style.left}\n`);
+            console.log(res); alert("Сохранено в консоль!");
         }
 
         window.onload = () => {
             let p = 0;
-            const interval = setInterval(() => {
-                p += 10;
-                document.getElementById('progress-fill').style.width = p + '%';
-                document.getElementById('loading-pct').textContent = p + '%';
-                if(p >= 100) {
-                    clearInterval(interval);
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('selection-screen').style.display = 'flex';
-                    document.getElementById('selection-screen').style.opacity = '1';
-                }
+            const inv = setInterval(() => {
+                p += 10; document.getElementById('progress-fill').style.width = p+'%';
+                if(p>=100) { clearInterval(inv); document.getElementById('loading-screen').style.display='none'; document.getElementById('selection-screen').style.display='flex'; document.getElementById('selection-screen').style.opacity='1'; }
             }, 50);
         };
     </script>
