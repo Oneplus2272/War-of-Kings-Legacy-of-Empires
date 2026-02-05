@@ -115,21 +115,41 @@
 
         .resources-column { position: absolute; top: env(safe-area-inset-top, 20px); right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 20; }
         .resource-panel { display: flex; align-items: center; background: rgba(0, 0, 0, 0.75); padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(8px); border: 1px solid var(--gold); min-width: 100px; }
-        .resource-panel.blue { border-color: var(--blue); }
+        .resource-panel.blue { display: none; } /* Убрана рамка под кристаллы */
         .resource-panel img { width: 22px; height: 22px; margin-right: 8px; }
         .resource-panel .value { font-size: 1rem; font-weight: bold; }
 
+        /* Круглая аватарка и информация героя */
         .player-header { 
             position: absolute; top: env(safe-area-inset-top, 20px); left: 15px; 
-            display: flex; align-items: center; background: rgba(0, 0, 0, 0.75); 
-            padding: 8px; border-radius: 14px; border: 1px solid var(--blue); 
-            backdrop-filter: blur(10px); z-index: 20; cursor: pointer;
+            display: flex; align-items: center; 
+            z-index: 20; cursor: pointer;
         }
-        .player-avatar { width: 60px; height: 60px; border-radius: 12px; border: 2px solid var(--gold); margin-right: 12px; object-fit: cover; }
-        .player-info h3 { margin: 0; color: var(--gold); font-size: 1rem; }
-        .player-info p { margin: 0; font-size: 0.8rem; color: #ccc; }
+        .avatar-container {
+            position: relative; width: 70px; height: 70px;
+        }
+        .player-avatar { 
+            width: 70px; height: 70px; border-radius: 50%; 
+            border: 3px solid var(--gold); object-fit: cover; 
+            background: rgba(0,0,0,0.5);
+        }
+        .lvl-circle {
+            position: absolute; bottom: 0; left: 0;
+            width: 22px; height: 22px; background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: 2px solid #333; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-size: 11px; font-weight: bold; z-index: 22;
+        }
+        .player-info-box {
+            position: absolute; left: 60px; bottom: 0;
+            background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold);
+            padding: 2px 10px 2px 15px; border-radius: 0 8px 8px 0;
+            min-width: 100px; z-index: 21;
+        }
+        .player-info-box h3 { margin: 0; color: var(--gold); font-size: 0.9rem; }
+        .player-info-box p { margin: 0; font-size: 0.7rem; color: #fff; white-space: nowrap; }
 
-        .vip-button { position: absolute; top: env(safe-area-inset-top, 20px); left: 50%; transform: translateX(-50%); width: 80px; height: 80px; z-index: 20; filter: grayscale(1); transition: 0.3s; cursor: pointer; }
+        .vip-button { position: absolute; top: calc(env(safe-area-inset-top, 20px) + 20px); left: 50%; transform: translateX(-50%); width: 80px; height: 80px; z-index: 20; filter: grayscale(1); transition: 0.3s; cursor: pointer; }
         .vip-button.active { filter: grayscale(0); }
         .vip-button img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -152,7 +172,7 @@
         #inventory-screen { background: url('character_preview.png') no-repeat center center/cover; z-index: 500; overflow: hidden; }
         .close-inv { position: absolute; top: 30px; left: 30px; font-size: 3rem; color: white; cursor: pointer; z-index: 601; text-shadow: 0 0 10px #000; }
         .inv-container { width: 100%; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .hero-preview-box { position: absolute; transform: translate(-50%, -50%); z-index: 1; }
+        .hero-preview-box { position: absolute; transform: translate(calc(-50% + 6px), -50%); z-index: 1; } /* Смещение героя на 6px вправо */
         .equipment-grid { position: absolute; width: 100%; height: 100%; display: flex; justify-content: space-between; align-items: center; pointer-events: none; padding: 0 5%; box-sizing: border-box; z-index: 2; }
         .inv-slot { position: absolute; pointer-events: auto; z-index: 10; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: none; background: transparent; cursor: pointer; }
         .inv-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); }
@@ -161,30 +181,30 @@
         #vip-modal, #vip-shop-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; color: black; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .vip-header-title { text-align: center; font-size: 24px; font-weight: bold; margin-top: 40px; }
         
-        .vip-exp-bar-container { width: 90%; margin: 40px auto; display: flex; align-items: center; gap: 15px; position: relative; }
+        .vip-exp-bar-container { width: 90%; margin: 60px auto; display: flex; align-items: center; gap: 15px; position: relative; }
         .vip-exp-bar { flex-grow: 1; height: 35px; background: #ddd; border-radius: 20px; border: 3px solid #000; position: relative; overflow: visible; }
         .vip-exp-fill { width: 0%; height: 100%; background: linear-gradient(to right, #ffd700, #ffa500); border-radius: 15px; }
-        .vip-center-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 60px; z-index: 5; }
+        .vip-center-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 180px; z-index: 5; } /* Увеличено в 3 раза (60*3) */
         .vip-exp-text { position: absolute; width: 100%; text-align: center; top: 5px; font-weight: bold; z-index: 6; font-size: 16px; }
         .vip-plus-btn { width: 45px; height: 45px; background: #000; color: white; border-radius: 50%; border: none; font-size: 28px; cursor: pointer; z-index: 10; }
 
         /* МАГАЗИН VIP */
         .vip-shop-item { 
-            position: relative; width: 340px; height: 120px; 
-            margin: 15px auto; background: url('icon_vip_ramka.png') no-repeat center center/contain;
+            position: relative; width: 100%; max-width: 1020px; height: 360px; /* Ширина и высота увеличены */
+            margin: 30px auto; background: url('icon_vip_ramka.png') no-repeat center center/contain;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .item-title { font-weight: bold; font-size: 18px; margin-top: -10px; color: #000; }
-        .item-desc { font-size: 14px; color: #000; font-weight: 500; margin-top: 5px; }
+        .item-title { font-weight: bold; font-size: 32px; margin-top: -30px; color: #000; }
+        .item-desc { font-size: 24px; color: #000; font-weight: 500; margin-top: 10px; }
         
         .buy-price-btn {
-            position: absolute; bottom: 15px; right: 25px;
+            position: absolute; bottom: 40px; right: 80px;
             background: linear-gradient(to bottom, #ffd700, #ff8c00);
-            padding: 5px 12px; border-radius: 6px; border: 2px solid #000;
-            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            padding: 15px 30px; border-radius: 12px; border: 3px solid #000;
+            display: flex; align-items: center; gap: 15px; cursor: pointer;
         }
-        .buy-price-btn img { width: 28px; height: 28px; }
-        .buy-price-btn span { font-weight: bold; font-size: 16px; color: #000; }
+        .buy-price-btn img { width: 56px; height: 56px; } /* Золото увеличено в 2 раза (28*2) */
+        .buy-price-btn span { font-weight: bold; font-size: 32px; color: #000; }
 
         .close-white-btn { position: absolute; top: 15px; right: 15px; font-size: 32px; font-weight: bold; cursor: pointer; z-index: 1100; }
 
@@ -244,17 +264,21 @@
     <div id="menu-screen" class="screen">
         <div class="menu-container">
             <div class="player-header" onclick="openInventory()">
-                <img id="menu-avatar" src="" class="player-avatar">
-                <div class="player-info">
+                <div class="avatar-container">
+                    <img id="menu-avatar" src="" class="player-avatar">
+                    <div class="lvl-circle" id="lvl-display">1</div>
+                </div>
+                <div class="player-info-box">
                     <h3 id="p-name-display">Загрузка...</h3>
-                    <p id="p-level-display">Уровень: 1</p>
+                    <p id="p-force-display">Сила: 1250</p>
                 </div>
             </div>
+            
             <div id="vip-btn" class="vip-button" onclick="openVipModal()"><img src="icon_vip.png"></div>
+            
             <div class="resources-column">
                 <div class="resource-panel"><img src="icon_gold.png"><span id="gold-val" class="value">1500</span></div>
-                <div class="resource-panel blue"><img src="icon_crystal.png"><span id="crys-val" class="value">50</span></div>
-            </div>
+                </div>
             <div id="ui-dynamic-layer"></div>
         </div>
     </div>
@@ -291,15 +315,13 @@
 
     <div id="vip-shop-modal">
         <div class="close-white-btn" onclick="closeVipShop()">×</div>
-        <h2 style="text-align: center; color: black; margin-bottom: 30px;">КУПИТЬ VIP ОЧКИ</h2>
+        <h2 style="text-align: center; color: black; margin-bottom: 30px; font-size: 40px;">КУПИТЬ VIP ОЧКИ</h2>
         <div id="vip-shop-list">
             </div>
     </div>
 
     <script>
         const tg = window.Telegram?.WebApp;
-        const SERVER_URL = 'https://void-echoes-rpg.onrender.com';
-        let userId = tg?.initDataUnsafe?.user?.id || 12345;
         let currentPage = 1;
         let currentHeroId = null;
         
@@ -328,7 +350,7 @@
             document.getElementById('inv-hero-img').src = heroesData[heroId].image;
         }
 
-        async function confirmHeroSelection() {
+        function confirmHeroSelection() {
             if (!currentHeroId) return;
             showMenu();
         }
@@ -384,6 +406,7 @@
 
         function openVipModal() { document.getElementById('vip-modal').style.display = 'block'; }
         function closeVipModal() { document.getElementById('vip-modal').style.display = 'none'; }
+        
         function openVipShop() {
             const list = document.getElementById('vip-shop-list');
             list.innerHTML = '';
